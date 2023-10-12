@@ -32,7 +32,44 @@ class CustomList(list):
             res.append(l1[i]+l2[i])
             
         return res
+    
+    def __radd__(self, other:'CustomList'):
+        if (isinstance(other, list)):
+            return [x + y for x, y in zip(self, other)]
 
+    def __sub__(self, other: 'CustomList'):
+        max_len = max(len(self), len(other))
+
+        l1 = self
+        l2 = other
+        res=[]
+
+        while (len(l1)<max_len):
+            l1.append(0)
+
+        while (len(l2)<max_len):
+            l2.append(0)
+
+        for i in range(max_len):
+            res.append(l1[i]-l2[i])
+            
+        return res
+    
+
+    def __eq__(self, other: 'CustomList'):
+        return True if sum(self)==sum(other) else False
+    
+    def __ne__(self, other:'CustomList'):
+        return True if sum(self)!=sum(other) else False
+        
+
+        
+    def __str__(self):
+        return (([x for x in self]), (sum(self)))
+
+
+
+        
 
 
         
