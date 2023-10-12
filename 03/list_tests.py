@@ -71,7 +71,6 @@ class TestCustomList(unittest.TestCase):
 
 
 
-
     #ТЕСТЫ НА ОШИБКИ ВВОДА ВХОДНЫХ ЗНАЧЕНИЙ
 
     def test_add_equal_lengths(self):
@@ -106,25 +105,31 @@ class TestCustomList(unittest.TestCase):
 
     def test_add_new_list_is_the_new_obj(self):
         cl_1 = CustomList([1,2,3,4,5])
-        cl1_id = id(cl_1)
+        cl1 = cl_1
         cl_2  = CustomList([1,2,3])
-        cl2_id = id(cl_2)
+        cl2 = cl_2
 
         res = cl_1.__add__(cl_2)
 
-        self.assertNotEqual(id(res), cl1_id)
-        self.assertNotEqual(id(res), cl2_id)
+        self.assertNotEqual(id(res), id(cl1))
+        self.assertNotEqual(res, cl1)
+        self.assertNotEqual(id(res), id(cl2))
+        self.assertNotEqual(res, cl2)
 
     def test_add_old_lists_are_the_old_obj(self):
         cl_1 = CustomList([1,2,3,4,5])
-        cl1_id = id(cl_1)
+        cl1 = cl_1
         cl_2  = CustomList([1,2,3])
-        cl2_id = id(cl_2)
+        cl2 = cl_2
 
         cl_1.__add__(cl_2)
 
-        self.assertEqual(cl1_id, id(cl_1))
-        self.assertEqual(cl2_id, id(cl_2))
+        self.assertEqual(id(cl1), id(cl_1))
+        self.assertEqual(cl_1, cl1)
+        self.assertEqual(id(cl2), id(cl_2))
+        self.assertEqual(cl_2, cl2)
+
+    
 
 
     # ТЕСТЫ НА НУЛИ В СПИСКАХ,ГДЕ МЕНЬШЕ ПЕРАМЕТРОВ
@@ -278,25 +283,29 @@ class TestCustomList(unittest.TestCase):
 
     def test_sub_new_list_is_the_new_obj(self):
         cl_1 = CustomList([1,2,3,4,5])
-        cl1_id = id(cl_1)
+        cl1 = cl_1
         cl_2  = CustomList([1,2,3])
-        cl2_id = id(cl_2)
+        cl2 = cl_2
 
         res = cl_1.__sub__(cl_2)
 
-        self.assertNotEqual(id(res), cl1_id)
-        self.assertNotEqual(id(res), cl2_id)
+        self.assertNotEqual(id(res), id(cl1))
+        self.assertNotEqual(res, cl1)
+        self.assertNotEqual(id(res), id(cl2))
+        self.assertNotEqual(res, cl2)
 
     def test_sub_old_lists_are_the_old_obj(self):
         cl_1 = CustomList([1,2,3,4,5])
-        cl1_id = id(cl_1)
+        cl1 = cl_1
         cl_2  = CustomList([1,2,3])
-        cl2_id = id(cl_2)
+        cl2 = cl_2
 
         cl_1.__sub__(cl_2)
 
-        self.assertEqual(cl1_id, id(cl_1))
-        self.assertEqual(cl2_id, id(cl_2))
+        self.assertEqual(id(cl1), id(cl_1))
+        self.assertEqual(cl1, cl_1)
+        self.assertEqual(id(cl2), id(cl_2))
+        self.assertEqual(cl2, cl_2)
 
     
 
@@ -429,7 +438,7 @@ class TestCustomList(unittest.TestCase):
     def test_str_not_empty_list(self):
         self.assertEqual(([1,2,3,4,5], 15), CustomList([1,2,3,4,5]).__str__())
 
-    def test_one_elem_in_list(self):
+    def test_str_one_elem_in_list(self):
         self.assertEqual(([5],5), CustomList(CustomList([5])).__str__())
  
 
@@ -437,70 +446,128 @@ class TestCustomList(unittest.TestCase):
 
 ################################################# EQ ############################################
 
-def test_eq_equal_lists(self):
-    cl_1 = CustomList([1,2,3,4,5])
-    cl_2 = CustomList([3,5,7])
-    self.assertEqual(True, cl_1.__eq__(cl_2))
-    self.assertEqual(True, cl_2.__eq__(cl_1))
+    def test_eq_equal_lists(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,7])
+        self.assertEqual(True, cl_1.__eq__(cl_2))
+        self.assertEqual(True, cl_2.__eq__(cl_1))
 
 
-def test_eq_not_equal_lists(self):
-    cl_1 = CustomList([1,2,3,4,5])
-    cl_2 = CustomList([3,5,8])
-    self.assertEqual(False, cl_1.__eq__(cl_2))
-    self.assertEqual(False, cl_2.__eq__(cl_1))
+    def test_eq_not_equal_lists(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,8])
+        self.assertEqual(False, cl_1.__eq__(cl_2))
+        self.assertEqual(False, cl_2.__eq__(cl_1))
 
 ############################################### NE ################################################
 
-def test_ne_equal_lists(self):
-    cl_1 = CustomList([1,2,3,4,5])
-    cl_2 = CustomList([3,5,7])
-    self.assertEqual(False, cl_1.__ne__(cl_2))
-    self.assertEqual(False, cl_2.__ne__(cl_1))
+    def test_ne_equal_lists(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,7])
+        self.assertEqual(False, cl_1.__ne__(cl_2))
+        self.assertEqual(False, cl_2.__ne__(cl_1))
 
 
-def test_ne_not_equal_lists(self):
-    cl_1 = CustomList([1,2,3,4,5])
-    cl_2 = CustomList([3,5,8])
-    self.assertEqual(True, cl_1.__ne__(cl_2))
-    self.assertEqual(True, cl_2.__ne__(cl_1))
+    def test_ne_not_equal_lists(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,8])
+        self.assertEqual(True, cl_1.__ne__(cl_2))
+        self.assertEqual(True, cl_2.__ne__(cl_1))
 
 
+##################################################### GT ###########################################
+
+    def test_gt_greater_list(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,6])
+        self.assertEqual(True, cl_1.__gt__(cl_2))
+        self.assertEqual(False, cl_2.__gt__(cl_1))
+
+    def test_gt_less_list(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,8])
+        self.assertEqual(False, cl_1.__gt__(cl_2))
+        self.assertEqual(True, cl_2.__gt__(cl_1))
 
 
+################################################### GE ###############################################
+
+    def test_ge_equal_lists(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,7])
+        self.assertEqual(True, cl_1.__ge__(cl_2))
+        self.assertEqual(True, cl_2.__ge__(cl_1))
+
+    def test_ge_greater_list(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,6])
+        self.assertEqual(True, cl_1.__ge__(cl_2))
+        self.assertEqual(False, cl_2.__ge__(cl_1))
+
+    def test_ge_less_list(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,8])
+        self.assertEqual(False, cl_1.__ge__(cl_2))
+        self.assertEqual(True, cl_2.__ge__(cl_1))
 
 
+######################################################### LT ########################################################
 
+    def test_lt_greater_list(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,6])
+        self.assertEqual(False, cl_1.__lt__(cl_2))
+        self.assertEqual(True, cl_2.__lt__(cl_1))
 
+    def test_lt_less_list(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,8])
+        self.assertEqual(True, cl_1.__lt__(cl_2))
+        self.assertEqual(False, cl_2.__lt__(cl_1))   
 
+###################################################### LE ###############################################################
 
+    def test_le_equal_lists(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,7])
+        self.assertEqual(True, cl_1.__le__(cl_2))
+        self.assertEqual(True, cl_2.__le__(cl_1))
 
+    def test_le_greater_list(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,6])
+        self.assertEqual(False, cl_1.__le__(cl_2))
+        self.assertEqual(True, cl_2.__le__(cl_1))
 
-
-
-
-
-
-
-
-
-
-
-
+    def test_le_less_list(self):
+        cl_1 = CustomList([1,2,3,4,5])
+        cl_2 = CustomList([3,5,8])
+        self.assertEqual(True, cl_1.__le__(cl_2))
+        self.assertEqual(False, cl_2.__le__(cl_1))
 
     
 
 
 
-   
-        
 
 
 
 
 
 
-       
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
