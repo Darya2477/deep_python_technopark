@@ -1,0 +1,80 @@
+import unittest
+from lru import LRUCache
+
+class LRUTest(unittest.TestCase):
+    def SetUp(self):
+        pass
+    def tearDown(self):
+        pass
+    
+    def test_limit_is_negative(self):
+        cache = LRUCache(limit=-1)
+        with self.assertRaises(Exception):
+            cache.set("key1", 1)
+
+    def test_limit_is_zero(self):
+        cache = LRUCache(limit=0)
+        with self.assertRaises(Exception):
+            cache.set("key1", 1)
+    
+    def test_limit_is_one(self):
+        cache = LRUCache(limit=1)
+        cache.set("key1", 1)
+        cache.set("key2", 2)
+
+        self.assertIsNone(cache.get("key1"))  
+        self.assertEqual(cache.get("key2"), 2) 
+
+    def test_empty_cache(self):
+        cache = LRUCache(limit=3)
+
+        self.assertIsNone(cache.get("key1"))  
+        self.assertIsNone(cache.get("key2")) 
+
+    def test_cache_update_existing_key(self):
+        cache = LRUCache(limit=3)
+        cache.set("key1", 1)
+        cache.set("key2", 2)
+
+        cache.set("key2", 20)
+
+        self.assertEqual(cache.get("key1"), 1)  
+        self.assertEqual(cache.get("key2"), 20) 
+
+    def test_cache_set_and_get(self):
+        cache = LRUCache(limit=3)
+        cache.set("key1", 1)
+        cache.set("key2", 2)
+        cache.set("key3", 3)
+
+        self.assertEqual(cache.get("key1"), 1)  
+        self.assertEqual(cache.get("key2"), 2)  
+        self.assertEqual(cache.get("key3"), 3)  
+        self.assertIsNone(cache.get("key4"))    
+
+    def test_cache_overflow(self):
+        cache = LRUCache(limit=2)
+        cache.set("key1", 1)
+        cache.set("key2", 2)
+
+        cache.set("key3", 3)
+        cache.set("key4", 4)
+
+        self.assertIsNone(cache.get("key1")) 
+        self.assertIsNone(cache.get("key2")) 
+        self.assertEqual(cache.get("key3"), 3)
+        self.assertEqual(cache.get("key4"), 4)
+
+    def test_cache_rearrangement(self):
+        cache = LRUCache(limit=3)
+        cache.set("key1", 1)
+        cache.set("key2", 2)
+        cache.set("key3", 3)
+
+        cache.get("key1")
+        cache.set("key4", 4)
+
+        self.assertEqual(cache.get("key1"), 1)  
+        self.assertIsNone(cache.get("key2"))   
+        self.assertEqual(cache.get("key3"), 3)  
+        self.assertEqual(cache.get("key4"), 4)  
