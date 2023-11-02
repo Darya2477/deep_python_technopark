@@ -20,13 +20,13 @@ class Client:
             url = url.strip()  
             thread = threading.Thread(target=self.send_request, args=(url,))
             threads.append(thread)
+            
         num_threads = min(num_threads, len(threads))
         for thread in threads[:num_threads]:
             thread.start()
 
-        for thread in threads:
+        for thread in threads[:num_threads]:
             thread.join()
-
 if __name__ == '__main__':
     console_args = sys.argv[1:]
 
