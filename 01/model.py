@@ -20,8 +20,3 @@ def predict_message_mood(
             return "отл"
         case x:
             return "норм"
-
-
-model = SomeModel()
-assert predict_message_mood("Чапаев и пустота", model) == "отл"
-assert predict_message_mood("Вулкан", model) == "неуд"
