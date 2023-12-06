@@ -1,36 +1,40 @@
-import cProfile
-from functools import wraps
+from typing import Callable, Any
+from cProfile import Profile
 import pstats
+import time
 
-def profile_deco(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        profiler = cProfile.Profile()
+
+def profile_deco(func: Callable) -> Callable:
+    def wrapper(*args, **kwargs) -> Any:
+        profiler = Profile()
         profiler.enable()
         result = func(*args, **kwargs)
         profiler.disable()
-        return result, profiler
+        wrapper.ps.add(profiler)
+        return result
+
+    wrapper.ps = pstats.Stats()
+
+    def print_stat():
+        wrapper.ps.print_stats()
+
+    wrapper.print_stat = print_stat
+
     return wrapper
 
-def print_stat(profiler):
-    stats = pstats.Stats(profiler)
-    stats.print_stats()
 
 @profile_deco
-def add(a, b):
-    return a + b
+def sleep_3() -> None:
+    return time.sleep(3)
+
 
 @profile_deco
-def sub(a, b):
-    return a - b
+def sleep_1() -> None:
+    return time.sleep(1)
 
-result, add_profiler = add(1, 2)
-result, add_profiler2 = add(4, 5)
-result, sub_profiler = sub(4, 5)
 
-print("Add function:")
-print_stat(add_profiler)
-print_stat(add_profiler2)
+sleep_1(), sleep_1()
+sleep_3()
 
-print("Sub function:")
-print_stat(sub_profiler)
+sleep_1.print_stat()
+sleep_3.print_stat()
