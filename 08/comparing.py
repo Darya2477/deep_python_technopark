@@ -1,5 +1,6 @@
 import timeit
 import weakref
+from memory_profiler import profile
 
 N = 1000000
 
