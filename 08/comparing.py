@@ -63,12 +63,22 @@ def weakref_class_create_memory_profile():
         groups.append(WeakRefClass(i, i+1))
     return groups
 
+@profile
+def change_memory_profile(groups):
+    for i in groups:
+        i.param1, i.param2 = i.param2, i.param1
+
+
 
 #создание
-print("The time is taken to create N objects of OrdinaryClass: ", timeit.timeit(lambda: ordinary_class_create_memory_profile(), globals=globals()))
-print("The time is taken to create N objects of SlotClass: ", timeit.timeit(lambda: slot_class_create_memory_profile(), globals=globals()))
-print("The time is taken to create N objects of WeakRefClass: ", timeit.timeit(lambda: weakref_class_create_memory_profile(), globals=globals()))
+print("The time is taken to create N objects of OrdinaryClass with profiling: ", timeit.timeit(lambda: ordinary_class_create_memory_profile(), globals=globals()))
+print("The time is taken to create N objects of SlotClass with profiling: ", timeit.timeit(lambda: slot_class_create_memory_profile(), globals=globals()))
+print("The time is taken to create N objects of WeakRefClass with profiling: ", timeit.timeit(lambda: weakref_class_create_memory_profile(), globals=globals()))
 
 #изменение
+print("The time is taken to change attributes of N objects of OrdinaryClass with profiling: ", timeit.timeit(lambda: change_memory_profile(ordinary_class_create_memory_profile()), globals=globals()))
+print("The time is taken to change attributes of N objects of SlotClass with profiling: ", timeit.timeit(lambda: change_memory_profile(ordinary_class_create_memory_profile()), globals=globals()))
+print("The time is taken to change attributes of N objects of WeakRefClass with profiling: ", timeit.timeit(lambda: change_memory_profile(ordinary_class_create_memory_profile()), globals=globals()))
+
 
 
